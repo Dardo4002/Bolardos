@@ -14,9 +14,12 @@ public class BallControler : MonoBehaviour
     //float
     public float reload = 10;
     [SerializeField] public float fuerza = 0;
-    [SerializeField] float multiplicador_fuerza = 1.2f;
-    [SerializeField] float angulo = -10;
-    [SerializeField] float multiplicador_angulo = 1.2f;
+    public float max_fuerza = 10;
+    [SerializeField] float multiplicador_fuerza = 10;
+    [SerializeField] public float angulo = -10;
+    public float max_angulo = 10;
+    public float min_angulo = -10;
+    [SerializeField] float multiplicador_angulo = 4;
 
     //bool
     [SerializeField] private bool god_mode = false;
@@ -71,13 +74,13 @@ public class BallControler : MonoBehaviour
             if (check_angulo == false)
             {
                 angulo += Time.deltaTime * multiplicador_angulo;
-                if (angulo > 10)
+                if (angulo > max_angulo)
                     check_angulo = true;
             }
             if (check_angulo == true)
             {
                 angulo -= Time.deltaTime * multiplicador_angulo;
-                if (angulo < -10)
+                if (angulo < min_angulo)
                 check_angulo = false;
             }
 
@@ -98,7 +101,7 @@ public class BallControler : MonoBehaviour
             if (check_fuerza == false)
             {
                 fuerza += Time.deltaTime * multiplicador_fuerza;
-                if (fuerza > 10)
+                if (fuerza > max_fuerza)
                     check_fuerza = true;
             }
             if (check_fuerza == true)

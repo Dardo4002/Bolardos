@@ -1,27 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] GameObject powerbar;
-    // Start is called before the first frame update
-    RectTransform rect_transform;
-    BallControler ballControler;
+    public Image powerbar;
+    public Image angle;
+    public BallControler ballControler;
+    
     void Start()
     {
-        rect_transform = GetComponent<RectTransform>();
+
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        PowerBar();
+        ActualizaFuerza();
+        ActualizaAngulo();
     }
 
-    void PowerBar()
+    void ActualizaFuerza()
     {
-        rect_transform.localScale = new Vector3(1, ballControler.fuerza, 1);
+        powerbar.fillAmount = ballControler.fuerza / ballControler.max_fuerza;
     }
+
+    void ActualizaAngulo()
+    {
+        if (ballControler.angulo < 0)
+        {
+            angle.fillAmount = - ballControler.angulo / ballControler.max_angulo;
+        }
+        else
+        {
+            angle.fillAmount = ballControler.angulo / ballControler.max_angulo;
+        }
+        
+    }
+
+    
 }
