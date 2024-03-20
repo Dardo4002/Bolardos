@@ -1,6 +1,8 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +11,11 @@ public class BallControler : MonoBehaviour
     private Rigidbody rb;
     //godmode
     public float force_up = 10;
-    public float force_2D = 1;
+    public float force_2D;
+    public float force_position = 5;
+
+    //int
+    [SerializeField] int ronda = 1;
 
     //float
     public float reload = 10;
@@ -27,11 +33,16 @@ public class BallControler : MonoBehaviour
     public bool tirada = true;
     public bool angulo_establecido = false;
     public bool fuerza_establecida = false;
+    public bool posicion_establecida = false;
+
+    //lo de abajo era para colocar los bolos en el inicio
+    static public bool colocar_bolos = false;
     bool check_fuerza = false;
     bool check_angulo = false;
+    [SerializeField] public bool jugable = true;
 
     //vector
-    private Vector3 posicion_inicial = new Vector3(0, 0, 0);
+    private Vector3 posicion_inicial = new Vector3(0, 0.59f, -5);
 
 
     void Start()
@@ -41,36 +52,55 @@ public class BallControler : MonoBehaviour
 
     void Update()
     {
-        if (god_mode == false)
+        if (jugable == true)
         {
-            if (angulo_establecido == false)
+            if (god_mode == false)
             {
-                DecisionAngulo();
+                if (posicion_establecida == false)
+                {
+                    DecisionPosicion();
+                }
+                if (posicion_establecida == true)
+                    rb.freezeRotation = false;
+                if (angulo_establecido == false)
+                {
+                    DecisionAngulo();
+                }
+                if (fuerza_establecida == false)
+                {
+                    DecisionFuerza();
+                }
+                VolverTirar();
             }
-            if (fuerza_establecida == false)
-            {
-                DecisionFuerza();
-            }
-            
-            VolverTirar();
-        }
 
-        if (god_mode == true)
-        {
-            FuerzaAlanteGod();
-            FuerzaArriba();
-            FuerzaAtras();
-            FuerzaDerecha();
-            FuerzaIzquierda();
+            if (god_mode == true)
+            {
+                FuerzaAlanteGod();
+                FuerzaArriba();
+                FuerzaAtras();
+                FuerzaDerecha();
+                FuerzaIzquierda();
+            }
         }
-        
+    }
+
+    void DecisionPosicion()
+    {
+        rb.freezeRotation = true;
+        if (Input.GetKey("a"))
+            rb.AddForce(Vector3.left * force_position, ForceMode.VelocityChange);
+        else
+            rb.velocity = Vector3.zero;
+        if (Input.GetKey("d"))
+            rb.AddForce(Vector3.right * force_position, ForceMode.VelocityChange);
+        else
+            rb.velocity = Vector3.zero;
     }
 
     void DecisionAngulo()
     {
         if (tirada == true)
         {
-            
             if (check_angulo == false)
             {
                 angulo += Time.deltaTime * multiplicador_angulo;
@@ -88,6 +118,7 @@ public class BallControler : MonoBehaviour
             {
                 this.transform.Rotate(new Vector3(0f, angulo, 0f));
                 angulo_establecido = true;
+                posicion_establecida = true;
             }
         }
     }
@@ -95,9 +126,9 @@ public class BallControler : MonoBehaviour
     void DecisionFuerza()
     {
         
+
         if (tirada == true)
         {
-            
             if (check_fuerza == false)
             {
                 fuerza += Time.deltaTime * multiplicador_fuerza;
@@ -118,6 +149,8 @@ public class BallControler : MonoBehaviour
                 choque = true;
                 tirada = false;
                 fuerza_establecida = true;
+                posicion_establecida = true;
+                ronda++;
             }
         }
     }
@@ -134,6 +167,7 @@ public class BallControler : MonoBehaviour
             reload = 10;
             choque = false;
             tirada = true;
+            colocar_bolos = true;
             PosicionInicial();
         }
     }
@@ -148,8 +182,18 @@ public class BallControler : MonoBehaviour
         rb.isKinematic = false;
         fuerza_establecida = false;
         angulo_establecido = false;
+        posicion_establecida = false;
+        colocar_bolos = false;
+        Final();
     }
 
+    void Final()
+    {
+        if (ronda == 3)
+        {
+            jugable = false;
+        }
+    }
 
     //god mode
     void FuerzaArriba()

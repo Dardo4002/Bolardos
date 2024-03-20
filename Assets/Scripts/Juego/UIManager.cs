@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public Image powerbar;
     public Image angle;
     public BallControler ballControler;
-    public TMPro.TextMeshPro puntos;
-    public string puntuacion = "0";
+    [SerializeField] TextMeshProUGUI puntos;
+    public int puntuacion = 0;
     static UIManager instance;
     
     public static UIManager Instance
@@ -31,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
 
@@ -39,7 +40,6 @@ public class UIManager : MonoBehaviour
     {
         ActualizaFuerza();
         ActualizaAngulo();
-        puntos.text = puntuacion;
     }
 
     void ActualizaFuerza()
@@ -63,5 +63,6 @@ public class UIManager : MonoBehaviour
     public void ActualizarPuntos()
     {
         puntuacion += 1;
+        puntos.text = puntuacion.ToString("Puntuacion: " + puntuacion);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bolo : MonoBehaviour
 {
     public bool derribado;
+    private Vector3 posicion_inicial = new Vector3(0, 0.59f, -5);
     // Start is called before the first frame update
     void Start()
     {
@@ -25,4 +26,15 @@ public class Bolo : MonoBehaviour
             UIManager.Instance.ActualizarPuntos();
         }
     }
+
+    /* no funciona el reposicionamiento de los bolos --> preguntar Luis el viernes
+    public void Reestablecer()
+    {
+        if (BallControler.colocar_bolos == true)
+        {
+            this.transform.rotation = Quaternion.identity;
+            this.transform.position = posicion_inicial;
+        }
+    }
+    */
 }
