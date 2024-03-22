@@ -2123,7 +2123,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bolo1: {fileID: 3205469957615439393, guid: 78cb5f37aacadd94e8fa6c67f95637fb, type: 3}
   bolo2: {fileID: 3205469957615439393, guid: 78cb5f37aacadd94e8fa6c67f95637fb, type: 3}
-  bolo3: {fileID: 3205469957615439393, guid: 78cb5f37aacadd94e8fa6c67f95637fb, type: 3}
   animador: {fileID: 1166152639}
   force_up: 2
   force_2D: 2.39
