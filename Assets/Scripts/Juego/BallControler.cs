@@ -26,6 +26,7 @@ public class BallControler : MonoBehaviour
     public float max_angulo = 10;
     public float min_angulo = -10;
     [SerializeField] float multiplicador_angulo = 4;
+    public float contador_colocar_bolos = 3;
 
     //bool
     [SerializeField] private bool god_mode = false;
@@ -71,6 +72,7 @@ public class BallControler : MonoBehaviour
                     DecisionFuerza();
                 }
                 VolverTirar();
+                ReestablecerBolos();
             }
 
             if (god_mode == true)
@@ -155,6 +157,21 @@ public class BallControler : MonoBehaviour
         }
     }
 
+    void ReestablecerBolos()
+    {
+        if (colocar_bolos == true)
+        {
+            contador_colocar_bolos -= Time.deltaTime;
+        }
+        if (contador_colocar_bolos <= 0)
+        {
+            colocar_bolos = false;
+            contador_colocar_bolos = 3;
+        }
+        
+    }
+
+    //restablece la bola y deja todos los valores en los iniciales
     void VolverTirar()
     {
         if (choque == true)
@@ -167,7 +184,6 @@ public class BallControler : MonoBehaviour
             reload = 10;
             choque = false;
             tirada = true;
-            colocar_bolos = true;
             PosicionInicial();
         }
     }
@@ -183,7 +199,7 @@ public class BallControler : MonoBehaviour
         fuerza_establecida = false;
         angulo_establecido = false;
         posicion_establecida = false;
-        colocar_bolos = false;
+        colocar_bolos = true;
         Final();
     }
 
