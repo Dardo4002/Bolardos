@@ -9,6 +9,9 @@ using UnityEngine;
 public class BallControler : MonoBehaviour
 {
     private Rigidbody rb;
+    [SerializeField] public GameObject bolo1;
+    [SerializeField] public GameObject bolo2;
+    public Animator animador;
     //godmode
     public float force_up = 10;
     public float force_2D;
@@ -16,6 +19,19 @@ public class BallControler : MonoBehaviour
 
     //int
     [SerializeField] int ronda = 1;
+
+    //ubicación bolos
+     Vector3 coordenadas1 = new Vector3(0.012f, 0.081f, 8.35f); //si
+     Vector3 coordenadas2 = new Vector3(0.23f, 0.081f, 8.709f); //si
+     Vector3 coordenadas3 = new Vector3(-0.27f, 0.081f, 8.709f); //si
+     Vector3 coordenadas4 = new Vector3(0.4f, 0.081f, 8.94f); //si
+     Vector3 coordenadas5 = new Vector3(0.018f, 0.081f, 8.94f); //si
+     Vector3 coordenadas6 = new Vector3(-0.44f, 0.081f, 8.94f); //si
+     Vector3 coordenadas7 = new Vector3(0.63f, 0.081f, 9.16f); //si
+     Vector3 coordenadas8 = new Vector3(0.11f, 0.081f, 9.16f); //si
+     Vector3 coordenadas9 = new Vector3(-0.22f, 0.081f, 9.16f); //si
+     Vector3 coordenadas10 = new Vector3(-0.6f, 0.081f, 9.16f); //si
+
 
     //float
     public float reload = 10;
@@ -35,6 +51,7 @@ public class BallControler : MonoBehaviour
     public bool angulo_establecido = false;
     public bool fuerza_establecida = false;
     public bool posicion_establecida = false;
+    bool recogiendo = false;
 
     //lo de abajo era para colocar los bolos en el inicio
     static public bool colocar_bolos = false;
@@ -43,12 +60,13 @@ public class BallControler : MonoBehaviour
     [SerializeField] public bool jugable = true;
 
     //vector
-    private Vector3 posicion_inicial = new Vector3(0, 0.59f, -5);
+    private Vector3 posicion_inicial = new Vector3(0.012f, 0.081f, -9.5f);
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animador = GetComponent<Animator>();
     }
 
     void Update()
@@ -60,6 +78,7 @@ public class BallControler : MonoBehaviour
                 if (posicion_establecida == false)
                 {
                     DecisionPosicion();
+                    ReestablecerBolos();
                 }
                 if (posicion_establecida == true)
                     rb.freezeRotation = false;
@@ -72,7 +91,8 @@ public class BallControler : MonoBehaviour
                     DecisionFuerza();
                 }
                 VolverTirar();
-                ReestablecerBolos();
+                
+
             }
 
             if (god_mode == true)
@@ -84,6 +104,12 @@ public class BallControler : MonoBehaviour
                 FuerzaIzquierda();
             }
         }
+    }
+
+    void Recogedor()
+    {
+        animador.SetTrigger("Recoger");
+        recogiendo = false;
     }
 
     void DecisionPosicion()
@@ -159,15 +185,26 @@ public class BallControler : MonoBehaviour
 
     void ReestablecerBolos()
     {
+        
+        if (recogiendo == true)
+        {
+            Recogedor();
+        }
         if (colocar_bolos == true)
         {
-            contador_colocar_bolos -= Time.deltaTime;
+            
+            contador_colocar_bolos -= Time.deltaTime;          
         }
+
         if (contador_colocar_bolos <= 0)
         {
+            
             colocar_bolos = false;
-            contador_colocar_bolos = 3;
+            contador_colocar_bolos = 10;
+            ReespawnBolo();
         }
+        
+        
         
     }
 
@@ -185,6 +222,7 @@ public class BallControler : MonoBehaviour
             choque = false;
             tirada = true;
             PosicionInicial();
+            recogiendo = true;
         }
     }
 
@@ -200,6 +238,7 @@ public class BallControler : MonoBehaviour
         angulo_establecido = false;
         posicion_establecida = false;
         colocar_bolos = true;
+
         Final();
     }
 
@@ -210,6 +249,39 @@ public class BallControler : MonoBehaviour
             jugable = false;
         }
     }
+
+    void ReespawnBolo()
+    {
+        if (ronda == 1)
+        {
+            bolo1 = Instantiate(bolo1, coordenadas1, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas2, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas3, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas4, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas5, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas6, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas7, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas8, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas9, Quaternion.identity);
+            bolo1 = Instantiate(bolo1, coordenadas10, Quaternion.identity);
+        }
+        else if (ronda == 2)
+        {
+            bolo2 = Instantiate(bolo2, coordenadas1, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas2, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas3, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas4, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas5, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas6, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas7, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas8, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas9, Quaternion.identity);
+            bolo2 = Instantiate(bolo2, coordenadas10, Quaternion.identity);
+        }
+        
+        
+    }
+
 
     //god mode
     void FuerzaArriba()

@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI puntos;
     public int puntuacion = 0;
     static UIManager instance;
-    
+
+
     public static UIManager Instance
     {
         get { return instance; }
@@ -40,6 +41,7 @@ public class UIManager : MonoBehaviour
     {
         ActualizaFuerza();
         ActualizaAngulo();
+
     }
 
     void ActualizaFuerza()
@@ -59,6 +61,8 @@ public class UIManager : MonoBehaviour
         }
         
     }
+
+    
 
     public void ActualizarPuntos()
     {

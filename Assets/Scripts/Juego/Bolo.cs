@@ -22,10 +22,15 @@ public class Bolo : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(!derribado && !recogiendo && ((transform.rotation.eulerAngles.x > 45 && transform.rotation.eulerAngles.x < 315) || transform.rotation.eulerAngles.z > 45 && transform.rotation.eulerAngles.z < 315))
+        if (collision.gameObject.CompareTag("Recogedor"))
+        {
+            Destroy(gameObject);
+        }
+
+        if (!derribado && !recogiendo && ((transform.rotation.eulerAngles.x > 45 && transform.rotation.eulerAngles.x < 315) || transform.rotation.eulerAngles.z > 45 && transform.rotation.eulerAngles.z < 315))
         {
             derribado = true;
             UIManager.Instance.ActualizarPuntos();
-        }
+        }  
     }
 }
